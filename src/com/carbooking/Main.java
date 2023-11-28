@@ -8,7 +8,6 @@ import com.carbooking.user.User;
 import com.carbooking.user.UserDAO;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -32,13 +31,15 @@ public class Main {
                 terminalMenu();
                 return;
             case 1:
+                boolean foundCar = false;
                 for (Car car : CarDAO.getAvailableCars()) {
                     System.out.println(car);
                 }
                 System.out.println("Select car reg number");
                 int regInput = scanner.nextInt();
-                /*for (int i = 0; i < CarDAO.getAvailableCars().length; i++) {*/
-                    /*if (CarDAO.getAvailableCars()[i].getRegNumber() == regInput) {*/
+                for (int i = 0; i < CarDAO.getAvailableCars().length; i++) {
+                    if (CarDAO.getAvailableCars()[i].getRegNumber() == regInput) {
+                        foundCar = true;
                         for (User user : UserDAO.getUsers()) {
                             System.out.println(user);
                         }
@@ -48,18 +49,13 @@ public class Main {
                         BookingDAO.addBooking(booking);
                         System.out.println("Successfully booked car with reg number " + regInput + " for user " + userIdInput);
                         System.out.println("Booking ref: " + booking.getBookingId());
-                        System.out.println();
 
-    /*                if ((i == CarDAO.getAvailableCars().length - 1) && (CarDAO.getAvailableCars()[i].getRegNumber() != regInput)) {
-                        System.out.println("Car not found");
-                    }*/
-
-                /*for (Car car : CarDAO.getAvailableCars()) {
-                    if(car.getRegNumber() == regInput) {
-
-                    } else {
-                        System.out.println("Car not found");
-                    }*/
+                    }
+                }
+                if (!foundCar) {
+                    System.out.println("Car not found");
+                }
+                System.out.println();
                     terminalMenu();
                     return;
             case 2:
@@ -100,7 +96,16 @@ public class Main {
                 terminalMenu();
                 return;
             case 5:
-                System.out.println(Arrays.toString(CarDAO.getAvailableElectricCars()));
+                boolean foundElectric = false;
+                for (Car car : CarDAO.getAvailableCars()) {
+                    if (car.isElectric()) {
+                        System.out.println(car);
+                        foundElectric = true;
+                    }
+                }
+                if(!foundElectric) {
+                    System.out.println("No electric cars available.");
+                }
                 System.out.println();
                 terminalMenu();
                 return;
@@ -113,14 +118,10 @@ public class Main {
                 return;
             case 7:
                 break;
-
         }
     }
 
     public static void main(String[] args) {
-
-        CarDAO.isElectric();
         terminalMenu();
-
     }
 }

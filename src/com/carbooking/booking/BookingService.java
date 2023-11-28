@@ -20,7 +20,7 @@ public class BookingService {
 
     public static Car getCarByRegNumber(int carRegNumber) {
         for (Car car : CarDAO.getAvailableCars()) {
-            if (car.getRegNumber() == carRegNumber && !car.isElectric()) {
+            if (car.getRegNumber() == carRegNumber) {
                 int index = -1;
                 for (int i = 0; i < CarDAO.getAvailableCars().length; i++) {
                     if (CarDAO.getAvailableCars()[i].equals(car)) {
@@ -43,32 +43,6 @@ public class BookingService {
                 return car;
             }
 
-            if(car.getRegNumber() == carRegNumber && car.isElectric()) {
-                // Find the index of the element to remove
-                int indexToRemove = -1;
-                for (int i = 0; i < CarDAO.getAvailableElectricCars().length; i++) {
-                    if (CarDAO.getAvailableElectricCars()[i] == car) {
-                        indexToRemove = i;
-                        break;
-                    }
-                }
-                // If the element is found, remove it
-                if (indexToRemove != -1) {
-                    // Create a new array with a size one less than the original array
-                    Car[] newArray = new Car[CarDAO.getAvailableElectricCars().length - 1];
-
-                    // Copy elements from the original array to the new array, excluding the element to remove
-                    for (int i = 0, j = 0; i < CarDAO.getAvailableElectricCars().length; i++) {
-                        if (i != indexToRemove) {
-                            newArray[j++] = CarDAO.getAvailableElectricCars()[i];
-                        }
-                    }
-
-                    // Update any references to the original array with the new array
-                    CarDAO.setAvailableElectricCars(newArray);
-            }
-            return car;
-        }
     }
         return null;
     }
